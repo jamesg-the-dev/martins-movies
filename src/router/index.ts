@@ -7,7 +7,10 @@ const router = createRouter({
     {
       path: '/',
       name: 'home',
-      component: HomeView
+      component: HomeView,
+      meta: {
+        breadcrumbs: ['Home', 'Move Grid 3']
+      },
     }
   ]
 })
