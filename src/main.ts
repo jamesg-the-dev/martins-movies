@@ -9,4 +9,9 @@ const app = createApp(App)
 app.component('FontAwesomeIcon', FontAwesomeIcon)
 app.use(router)
 
+app.mixin({
+  methods: {
+    appName: () => 'martin\'s movies'
+  }
+})
 app.mount('#app')
