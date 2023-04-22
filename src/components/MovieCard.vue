@@ -1,12 +1,13 @@
 <template>
-  <div class="bg-white rounded-md movie-card overflow-hidden">
-    <div>
+  <div class="bg-white rounded-md movie-card overflow-hidden transition-transform duration-300 hover:-translate-y-3">
+    <div class="h-full flex flex-col">
       <div class="max-h-80 overflow-hidden">
         <img class="w-full" :src="image" alt="">
       </div>
-      <div class="relative p-7">
-        <div>
+      <div class="relative p-7 h-full">
+        <div class="h-full flex flex-col">
           <div class="absolute -top-7 right-7">
+            <a class="movie-card__play-btn bg-purple" href=""><font-awesome-icon class="play-btn__icon" :icon="['fass', 'play']" /></a>
           </div>
           <h2 class="text-3xl font-medium movie-card__title">{{ title }}</h2>
 
@@ -20,11 +21,11 @@
             </div>
           </div>
 
-          <p class="mb-7 leading-6">
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua enim ad minim veniam...
-          </p>
+          <p class="mb-7 leading-6 movie-card__overview">{{ overview }}</p>
 
-          <a href="#" class="text-sm cursor-pointer bg-purple text-white px-4 py-2 rounded inline-block font-bold uppercase">details</a>
+          <div class="flex-grow flex items-end">
+            <a href="#" class="w-fit text-sm cursor-pointer bg-purple text-white px-4 py-2 rounded inline-block font-bold uppercase">details</a>
+          </div>
         </div>
       </div>
     </div>
@@ -47,19 +48,58 @@ export default {
     maxRating: {
       type: Number,
       default: 10
+    },
+    overview: {
+      type: String,
+      required: true
     }
   }
 }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 .movie-card {
   font-weight: 300;
   color: #948a99;
   box-shadow: 10px 10px 40px 0 rgb(52 58 64 / 10%);
-}
 
-.movie-card__title {
-  color: #3e4555;
+  &__play-btn {
+    box-shadow: 0 10px 30px 0 rgb(147 82 179 / 70%);
+    height: 60px;
+    width: 60px;
+    line-height: 60px;
+    color: #fff;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: all 0.5s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    &:hover {
+      color: #fff;
+      transform: scale(1.05);
+    }
+  }
+
+  &__title {
+    color: #3e4555;
+  }
+
+  .play-btn__icon {
+    height: 20px;
+    width: 20px;
+    color: #fff;
+    border-radius: 50%;
+  }
+
+  &__overview {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    -webkit-line-clamp: 5;
+    -webkit-box-orient: vertical;
+    display: -webkit-box;
+    display: -moz-box;
+    word-break: break-all;
+  }
 }
 </style>

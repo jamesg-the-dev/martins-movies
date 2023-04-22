@@ -1,6 +1,6 @@
 <template>
   <div class="grid grid-cols-3 gap-7">
-    <MovieCard v-for="movie in movies" :key="movie.id" :title="movie.title" :rating="movie.vote_average" :image="imageUrl + movie.poster_path"/>
+    <MovieCard v-for="movie in movies" :key="movie.id" :title="movie.title" :rating="movie.vote_average" :image="imageUrl + movie.poster_path" :overview="movie.overview"/>
   </div>
 </template>
 
