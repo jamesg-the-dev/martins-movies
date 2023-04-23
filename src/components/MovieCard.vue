@@ -1,13 +1,14 @@
 <template>
   <div class="bg-white rounded-md movie-card overflow-hidden transition-transform duration-300 hover:-translate-y-3">
     <div class="h-full flex flex-col">
-      <div class="max-h-80 overflow-hidden">
-        <img class="w-full" :src="image" alt="">
+      <div class="h-80 overflow-hidden">
+        <img class="w-full h-full object-cover object-center" :src="image" alt="">
       </div>
       <div class="relative p-7 h-full">
         <div class="h-full flex flex-col">
           <div class="absolute -top-7 right-7">
-            <a class="movie-card__play-btn bg-purple" href=""><font-awesome-icon class="play-btn__icon" :icon="['fass', 'play']" /></a>
+            <a class="movie-card__play-btn bg-purple" href="#"><font-awesome-icon class="play-btn__icon"
+                :icon="['fass', 'play']" /></a>
           </div>
           <h2 class="text-3xl font-medium movie-card__title">{{ title }}</h2>
 
@@ -24,7 +25,8 @@
           <p class="mb-7 leading-6 movie-card__overview">{{ overview }}</p>
 
           <div class="flex-grow flex items-end">
-            <a href="#" class="w-fit text-sm cursor-pointer bg-purple text-white px-4 py-2 rounded inline-block font-bold uppercase">details</a>
+            <a href="#"
+              class="w-fit text-sm cursor-pointer bg-purple text-white px-4 py-2 rounded inline-block font-bold uppercase">details</a>
           </div>
         </div>
       </div>
@@ -75,6 +77,7 @@ export default {
     display: flex;
     align-items: center;
     justify-content: center;
+
     &:hover {
       color: #fff;
       transform: scale(1.05);

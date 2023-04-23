@@ -23,7 +23,7 @@
             </select>
           </div>
         </div>
-        <MoveGrid :movies="movies"/>
+        <MoveGrid :movies="movies.movies" />
       </div>
     </section>
   </main>
@@ -33,36 +33,66 @@
 <script lang='ts'>
 import MainBanner from '@/components/MainBanner.vue';
 import MainFooter from '@/components/MainFooter.vue';
-import MoveGrid, { type Movie } from '@/components/MoveGrid.vue';
+import MoveGrid from '@/components/MoveGrid.vue';
+import { movies } from '@/stores/movies';
 
 export default {
   components: { MainBanner, MainFooter, MoveGrid },
   data() {
     return {
-      displayType: this.$route.query.displayType ?? "grid",
-      movies: [] as Movie[]
+      displayType: this.$route.query.displayType as string ?? "grid",
+      loading: false,
+      movies
     }
   },
   created() {
-    this.getMovies()
+    if (!this.$route.query.q) {
+      this.getMovies()
+    } else {
+      this.searchMovies()
+    }
   },
   methods: {
-    async getMovies() {
-      try {
-        const { data: { results } } = await this.$axios({
-          url: 'discover/movie',
-          params: {
-            language: this.language,
-            api_key: this.apiKey,
-            page: 1
-          }
-        })
-        if (typeof results === 'undefined') return;
-
-        this.movies = results
-      } catch (error) {
-        console.log('error', error)
+    getMovies() {
+      this.movies.loading = true
+      this.$axios({
+        url: 'discover/movie',
+        params: {
+          language: this.language,
+          api_key: this.apiKey,
+          page: 1
+        }
+      }).then(response => {
+        this.movies.movies = response.data.results
+        this.movies.loading = false
+      }).catch(err => {
+        this.movies.loading = false
+      })
+    },
+    searchMovies() {
+      const query = this.$route.query.q
+      if (query?.length === 0) {
+        this.getMovies();
+        return;
       }
+      this.movies.searchQuery = query as string
+      this.movies.loading = true
+      this.$router.push({ query: { q: query } })
+      this.$axios({
+        url: 'search/movie',
+        params: {
+          api_key: this.apiKey,
+          language: this.language,
+          query,
+        }
+      })
+        .then(response => {
+          this.movies.movies = response.data.results
+          this.movies.loading = false
+        })
+        .catch(err => {
+          this.movies.loading = false
+        })
     }
   }
 }

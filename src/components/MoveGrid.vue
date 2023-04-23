@@ -1,33 +1,38 @@
 <template>
-  <div class="grid grid-cols-3 gap-7">
-    <MovieCard v-for="movie in movies" :key="movie.id" :title="movie.title" :rating="movie.vote_average" :image="imageUrl + movie.poster_path" :overview="movie.overview"/>
+  <div>
+    <h3 class="mb-4 text-2xl font-medium" v-if="movieStore.searchQuery">Showing results for "{{ movieStore.searchQuery }}"</h3>
+    <div class="grid grid-cols-3 gap-7">
+      <template v-if="movieStore.loading">
+        <div v-for="i in 8" :key="i">
+          <SkeletonLoader height="270px" border-radius="0px"/>
+          <SkeletonLoader class="mt-3" border-radius="0px" height="25px" width="20%"/>
+          <SkeletonLoader class="mt-3" border-radius="0px" height="25px"/>
+          <SkeletonLoader class="mt-3" border-radius="0px" height="25px"/>
+        </div>
+      </template>
+      <template v-else>
+        <MovieCard v-for="movie in movies" :key="movie.id" :title="movie.title" :rating="movie.vote_average" :image="imageUrl + movie.poster_path" :overview="movie.overview"/>
+      </template>
+    </div>
   </div>
 </template>
 
 <script lang='ts'>
-export interface Movie {
-  adult:             boolean;
-  backdrop_path:     string;
-  genre_ids:         number[];
-  id:                number;
-  original_language: string;
-  original_title:    string;
-  overview:          string;
-  popularity:        number;
-  poster_path:       string;
-  release_date:      Date;
-  title:             string;
-  video:             boolean;
-  vote_average:      number;
-  vote_count:        number;
-}
+import type { Movie } from '@/stores/movies';
+import { movies } from '@/stores/movies';
 import MovieCard from './MovieCard.vue';
+import SkeletonLoader from './SkeletonLoader.vue';
 export default {
-  components: { MovieCard },
+  components: { MovieCard, SkeletonLoader },
   props: {
     movies: {
       type: Array<Movie>,
       required: true
+    }
+  },
+  data() {
+    return {
+      movieStore: movies
     }
   }
 }
