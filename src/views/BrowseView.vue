@@ -33,7 +33,7 @@
 <script lang='ts'>
 import MoveGrid from '@/components/MoveGrid.vue';
 import PaginationWrapper from '@/components/PaginationWrapper.vue';
-import { movies } from '@/stores/movies';
+import { movies, type Movie } from '@/stores/movies';
 import { ref } from 'vue';
 
 export default {
@@ -84,6 +84,7 @@ export default {
       })
         .then(response => {
           this.movies.movies = response.data.results
+          response.data.results.filter((movie: Movie) => this.movies.getWatchedMovies().has(movie.id)).forEach((movie: Movie) => movie.watched = true)
           this.movies.totalPages = response.data.total_pages
           this.movies.loading = false
         })

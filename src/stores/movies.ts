@@ -15,18 +15,31 @@ export interface Movie {
   video:             boolean;
   vote_average:      number;
   vote_count:        number;
+  watched?:          boolean;
 }
 export interface MovieStore {
   movies: Movie[];
   loading: boolean;
   searchQuery: string;
   currentPage: number;
-  totalPages: number
+  totalPages: number;
+  getWatchedMovies: () => Set<number>;
+  setWatchedMovies: (movieIds: number[]) => void;
 }
 export const movies = ref<MovieStore>({
   movies: [],
   loading: false,
   searchQuery: '',
   currentPage: 1,
-  totalPages: 1
+  totalPages: 1,
+  getWatchedMovies() {
+    const watchedMovies = localStorage.getItem('watchedMovies')
+    if (watchedMovies) {
+      return new Set<number>(JSON.parse(watchedMovies ?? []))
+    }
+    return new Set<number>()
+  },
+  setWatchedMovies(moviesIds) {
+    localStorage.setItem('watchedMovies', JSON.stringify(moviesIds))
+  }
 })

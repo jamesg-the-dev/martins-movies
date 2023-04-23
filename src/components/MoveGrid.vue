@@ -11,7 +11,7 @@
         </div>
       </template>
       <template v-else>
-        <MovieCard v-for="movie in movies" :key="movie.id" :title="movie.title" :rating="movie.vote_average" :image="imageUrl + movie.poster_path" :overview="movie.overview"/>
+        <MovieCard v-for="movie in movies" :key="movie.id" :title="movie.title" :rating="movie.vote_average" :image="imageUrl + movie.poster_path" :overview="movie.overview" :watched="movie.watched" @mark-watched="markAsWatched(movie)"/>
       </template>
     </div>
   </div>
@@ -22,6 +22,7 @@ import type { Movie } from '@/stores/movies';
 import { movies } from '@/stores/movies';
 import MovieCard from './MovieCard.vue';
 import SkeletonLoader from './SkeletonLoader.vue';
+import { toRaw } from 'vue';
 export default {
   components: { MovieCard, SkeletonLoader },
   props: {
@@ -33,6 +34,19 @@ export default {
   data() {
     return {
       movieStore: movies
+    }
+  },
+  methods: {
+    markAsWatched(movie: Movie) {
+      const watchedMovies = this.movieStore.getWatchedMovies()
+      if (!watchedMovies) {
+        this.movieStore.setWatchedMovies([movie.id])
+      } else {
+        watchedMovies.add(movie.id)
+        this.movieStore.setWatchedMovies([...watchedMovies])
+      }
+
+      movie.watched = true
     }
   }
 }

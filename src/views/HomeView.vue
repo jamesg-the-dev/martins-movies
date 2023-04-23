@@ -33,7 +33,7 @@
 <script lang='ts'>
 import MoveGrid from '@/components/MoveGrid.vue';
 import PaginationWrapper from '@/components/PaginationWrapper.vue';
-import { movies } from '@/stores/movies';
+import { movies, type Movie } from '@/stores/movies';
 import { ref } from 'vue';
 
 export default {
@@ -74,10 +74,12 @@ export default {
           page: this.movies.currentPage
         }
       }).then((response) => {
+        const watchedMovies = this.movies.getWatchedMovies()
+        response.data.results.filter((movie: Movie) => watchedMovies.has(movie.id)).forEach((movie: Movie) => movie.watched = true)
         this.movies.movies = response.data.results
         this.movies.totalPages = response.data.total_pages
         this.movies.loading = false
-      }).catch(err => {
+      }).catch(() => {
         this.movies.loading = false
       })
     }

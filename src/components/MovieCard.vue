@@ -1,7 +1,7 @@
 <template>
   <div class="bg-white rounded-md movie-card overflow-hidden transition-transform duration-300 hover:-translate-y-3">
     <div class="h-full flex flex-col">
-      <div class="h-80 overflow-hidden">
+      <div class="h-96 overflow-hidden" :class="{ 'watched': watched }">
         <img class="w-full h-full object-cover object-center" :src="image" alt="">
       </div>
       <div class="relative p-7 h-full">
@@ -10,6 +10,7 @@
             <a class="movie-card__play-btn bg-purple" href="#"><font-awesome-icon class="play-btn__icon"
                 :icon="['fass', 'play']" /></a>
           </div>
+
           <h2 class="text-3xl font-medium movie-card__title">{{ title }}</h2>
 
           <div class="py-3 flex justify-between items-center text-sm">
@@ -21,6 +22,8 @@
               {{ category }}
             </div>
           </div>
+
+          <button @click="$emit('markWatched')" class="font-semibold flex justify-between my-3 hover:underline hover:cursor-pointer">Mark as watched</button>
 
           <p class="mb-7 leading-6 movie-card__overview">{{ overview }}</p>
 
@@ -54,8 +57,10 @@ export default {
     overview: {
       type: String,
       required: true
-    }
-  }
+    },
+    watched: Boolean
+  },
+  emits: ['markWatched']
 }
 </script>
 
@@ -81,6 +86,23 @@ export default {
     &:hover {
       color: #fff;
       transform: scale(1.05);
+    }
+  }
+
+  .watched {
+    position: relative;
+    user-select: none;
+
+    &::after {
+      content: 'watched';
+      color: #FFF;
+      font-size: 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: absolute;
+      background-color: rgba(0, 0, 0, 0.6);
+      inset: 0;
     }
   }
 
