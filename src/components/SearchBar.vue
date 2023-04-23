@@ -2,7 +2,7 @@
   <div class="search-bar flex items-center bg-white" :class="{ 'search-bar--show': show }"
     :style="{ visibility: show ? 'visible' : 'hidden' }">
     <form @submit.prevent="submit">
-      <input type="text" ref="input" v-model="movies.searchQuery" autofocus placeholder="Type and hit enter...">
+      <input type="text" ref="input" :value="movies.searchQuery" placeholder="Type and hit enter...">
     </form>
     <button type="button" @click="$emit('close')" class="pr-5">
       <font-awesome-icon size="lg" :icon="['fas', 'xmark']" />
@@ -12,8 +12,15 @@
 
 <script lang='ts'>
 import { movies } from '@/stores/movies';
+import { ref } from 'vue';
 
 export default {
+  setup() {
+    const input = ref<HTMLInputElement>();
+    return {
+      input
+    }
+  },
   props: {
     show: Boolean
   },
@@ -25,9 +32,11 @@ export default {
   },
   methods: {
     submit() {
-      const query = this.movies.searchQuery
+      if (!this.input) return;
+      const query = this.input?.value
       if (query.length === 0) return;
       this.movies.loading = true
+      this.movies.searchQuery = query
       this.$router.push({query: {q: query}})
       this.$axios({
         url: 'search/movie',
@@ -45,7 +54,6 @@ export default {
         this.movies.loading = false
       })
       this.$emit('close');
-
     },
   }
 }
