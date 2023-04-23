@@ -37,7 +37,7 @@ export default {
       if (query.length === 0) return;
       this.movies.loading = true
       this.movies.searchQuery = query
-      this.$router.push({query: {q: query}})
+      this.$router.push({name: 'browse', params: {searchTerm: query}})
       this.$axios({
         url: 'search/movie',
         params: {

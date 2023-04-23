@@ -2,7 +2,7 @@
   <nav class="flex justify-between py-3 px-6 items-center relative">
     <img class="w-44" src="../assets/logo.png" alt="">
     <div class="flex gap-6">
-      <RouterLink class="text-gray-500" to="">Home</RouterLink>
+      <RouterLink class="text-gray-500" to="/">Home</RouterLink>
       <RouterLink class="text-gray-500" to="">Pages</RouterLink>
       <RouterLink class="text-gray-500" to="">Movies & TV Shows</RouterLink>
       <RouterLink class="text-gray-500" to="">Blog</RouterLink>

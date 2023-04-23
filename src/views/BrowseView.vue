@@ -52,34 +52,44 @@ export default {
     }
   },
   created() {
-    this.getMovies()
+    this.movies.currentPage = 1
+    this.movies.totalPages = 1
+    this.searchMovies()
+  },
+  beforeRouteLeave() {
+    this.movies.searchQuery = ''
   },
   methods: {
     handlePaginationChange(pageNumber: number) {
       this.movies.currentPage = pageNumber
-      this.getMovies()
+      this.searchMovies()
       setTimeout(() => {
         this.movieGrid?.scrollIntoView({
           behavior: 'smooth'
         })
       }, 0);
     },
-    getMovies() {
+    searchMovies() {
+      const query = this.$route.params.searchTerm
+      this.movies.searchQuery = query as string
       this.movies.loading = true
       this.$axios({
-        url: 'discover/movie',
+        url: 'search/movie',
         params: {
-          language: this.language,
           api_key: this.apiKey,
+          language: this.language,
+          query,
           page: this.movies.currentPage
         }
-      }).then((response) => {
-        this.movies.movies = response.data.results
-        this.movies.totalPages = response.data.total_pages
-        this.movies.loading = false
-      }).catch(err => {
-        this.movies.loading = false
       })
+        .then(response => {
+          this.movies.movies = response.data.results
+          this.movies.totalPages = response.data.total_pages
+          this.movies.loading = false
+        })
+        .catch(err => {
+          this.movies.loading = false
+        })
     }
   }
 }
