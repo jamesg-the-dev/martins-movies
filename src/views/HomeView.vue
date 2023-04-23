@@ -1,7 +1,7 @@
 <template>
   <MainBanner title="Movie Grid 3" />
   <main>
-    <section class="section movie-grid">
+    <section ref="movieGrid" class="section movie-grid">
       <div class="main-container">
         <div class="flex justify-between mb-12">
           <div class="flex gap-3">
@@ -23,7 +23,11 @@
             </select>
           </div>
         </div>
-        <MoveGrid :movies="movies.movies" />
+        <MoveGrid class="mb-4" :movies="movies.movies" />
+
+        <div class="flex justify-center items-center mt-8">
+          <PaginationWrapper @change-page="handlePaginationChange" :length="movies.totalPages" />
+        </div>
       </div>
     </section>
   </main>
@@ -34,10 +38,18 @@
 import MainBanner from '@/components/MainBanner.vue';
 import MainFooter from '@/components/MainFooter.vue';
 import MoveGrid from '@/components/MoveGrid.vue';
+import PaginationWrapper from '@/components/PaginationWrapper.vue';
 import { movies } from '@/stores/movies';
+import { ref } from 'vue';
 
 export default {
-  components: { MainBanner, MainFooter, MoveGrid },
+  setup() {
+    const movieGrid = ref<HTMLElement>()
+    return {
+      movieGrid
+    }
+  },
+  components: { MainBanner, MainFooter, MoveGrid, PaginationWrapper },
   data() {
     return {
       displayType: this.$route.query.displayType as string ?? "grid",
@@ -53,6 +65,19 @@ export default {
     }
   },
   methods: {
+    handlePaginationChange(pageNumber: number) {
+      this.movies.currentPage = pageNumber
+      if (!this.$route.query.q) {
+        this.getMovies()
+      } else {
+        this.searchMovies()
+      }
+      setTimeout(() => {
+        this.movieGrid?.scrollIntoView({
+          behavior: 'smooth'
+        })
+      }, 0);
+    },
     getMovies() {
       this.movies.loading = true
       this.$axios({
@@ -60,10 +85,11 @@ export default {
         params: {
           language: this.language,
           api_key: this.apiKey,
-          page: 1
+          page: this.movies.currentPage
         }
-      }).then(response => {
+      }).then((response) => {
         this.movies.movies = response.data.results
+        this.movies.totalPages = response.data.total_pages
         this.movies.loading = false
       }).catch(err => {
         this.movies.loading = false
@@ -84,10 +110,12 @@ export default {
           api_key: this.apiKey,
           language: this.language,
           query,
+          page: this.movies.currentPage
         }
       })
         .then(response => {
           this.movies.movies = response.data.results
+          this.movies.totalPages = response.data.total_pages
           this.movies.loading = false
         })
         .catch(err => {

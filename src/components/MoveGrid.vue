@@ -3,7 +3,7 @@
     <h3 class="mb-4 text-2xl font-medium" v-if="movieStore.searchQuery">Showing results for "{{ movieStore.searchQuery }}"</h3>
     <div class="grid grid-cols-3 gap-7">
       <template v-if="movieStore.loading">
-        <div v-for="i in 8" :key="i">
+        <div v-for="i in 20" :key="i">
           <SkeletonLoader height="270px" border-radius="0px"/>
           <SkeletonLoader class="mt-3" border-radius="0px" height="25px" width="20%"/>
           <SkeletonLoader class="mt-3" border-radius="0px" height="25px"/>

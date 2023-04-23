@@ -17,12 +17,16 @@ export interface Movie {
   vote_count:        number;
 }
 export interface MovieStore {
-  movies: Movie[],
-  loading: boolean,
-  searchQuery: string
+  movies: Movie[];
+  loading: boolean;
+  searchQuery: string;
+  currentPage: number;
+  totalPages: number
 }
 export const movies = ref<MovieStore>({
   movies: [],
   loading: false,
-  searchQuery: ''
+  searchQuery: '',
+  currentPage: 1,
+  totalPages: 1
 })

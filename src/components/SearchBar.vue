@@ -44,10 +44,12 @@ export default {
           api_key: this.apiKey,
           language: this.language,
           query,
+          page: this.movies.currentPage
         }
       })
       .then(response => {
         this.movies.movies = response.data.results
+        this.movies.totalPages = response.data.total_pages
         this.movies.loading = false
       })
       .catch(err => {
