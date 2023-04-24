@@ -1,8 +1,8 @@
 <template>
   <section ref="movieGrid" class="section movie-grid">
     <div class="main-container">
-      <div class="flex flex-wrap justify-between items-center mb-12">
-        <div class="flex gap-3 basis-1/2">
+      <div class="flex justify-between mb-12">
+        <div class="flex gap-3">
           <button @click="displayType = 'list'" :class="{ 'bg-purple text-white': displayType === 'list' }"
             class="transition-all duration-300 w-10 h-10 hover:bg-purple hover:text-white rounded-md"><font-awesome-icon
               :icon="['fas', 'list']" /></button>
@@ -52,36 +52,45 @@ export default {
     }
   },
   created() {
-    this.getMovies()
+    this.movies.currentPage = 1
+    this.movies.totalPages = 1
+    this.searchMovies()
+  },
+  beforeRouteLeave() {
+    this.movies.searchQuery = ''
   },
   methods: {
     handlePaginationChange(pageNumber: number) {
       this.movies.currentPage = pageNumber
-      this.getMovies()
+      this.searchMovies()
       setTimeout(() => {
         this.movieGrid?.scrollIntoView({
           behavior: 'smooth'
         })
       }, 0);
     },
-    getMovies() {
+    searchMovies() {
+      const query = this.$route.params.searchTerm
+      this.movies.searchQuery = query as string
       this.movies.loading = true
       this.$axios({
-        url: 'discover/movie',
+        url: 'search/movie',
         params: {
-          language: this.language,
           api_key: this.apiKey,
+          language: this.language,
+          query,
           page: this.movies.currentPage
         }
-      }).then((response) => {
-        const watchedMovies = this.movies.getWatchedMovies()
-        response.data.results.filter((movie: Movie) => watchedMovies.has(movie.id)).forEach((movie: Movie) => movie.watched = true)
-        this.movies.movies = response.data.results
-        this.movies.totalPages = response.data.total_pages
-        this.movies.loading = false
-      }).catch(() => {
-        this.movies.loading = false
       })
+        .then(response => {
+          this.movies.movies = response.data.results
+          response.data.results.filter((movie: Movie) => this.movies.getWatchedMovies().has(movie.id)).forEach((movie: Movie) => movie.watched = true)
+          this.movies.totalPages = response.data.total_pages
+          this.movies.loading = false
+        })
+        .catch(err => {
+          this.movies.loading = false
+        })
     }
   }
 }
