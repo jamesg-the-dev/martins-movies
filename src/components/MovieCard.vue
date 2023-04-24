@@ -16,7 +16,7 @@
           <div class="py-3 flex justify-between items-center text-sm">
             <div>
               <font-awesome-icon class="text-yellow-400" size="sm" :icon="['fas', 'star']" />
-              <span class="ml-1">{{ rating }}/{{ maxRating }}</span>
+              <span class="ml-1">{{ formatRating(rating) }}/{{ maxRating }}</span>
             </div>
             <div>
               {{ category }}
@@ -48,7 +48,7 @@ export default {
       required: true,
       type: String
     },
-    rating: [Number, String],
+    rating: [Number],
     category: String,
     maxRating: {
       type: Number,
@@ -60,7 +60,15 @@ export default {
     },
     watched: Boolean
   },
-  emits: ['markWatched']
+  emits: ['markWatched'],
+  methods: {
+    formatRating(rating: number | undefined) {
+      if (typeof rating === 'undefined')
+        return '0.0';
+
+      return rating.toFixed(1);
+    }
+  }
 }
 </script>
 
