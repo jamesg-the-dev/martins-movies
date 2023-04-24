@@ -1,7 +1,7 @@
 <template>
   <div class="bg-white rounded-md movie-card overflow-hidden transition-transform duration-300 hover:-translate-y-3">
     <div class="h-full flex flex-col">
-      <div class="h-96 overflow-hidden" :class="{ 'watched': watched }">
+      <div class="h-2/3 overflow-hidden" :class="{ 'watched': watched }">
         <img class="w-full h-full object-cover object-center" :src="image" alt="">
       </div>
       <div class="relative p-7 h-full">

@@ -2,12 +2,12 @@
   <footer class="footer bg-slate-700 text-white">
     <div class="section main-container">
       <div class="flex flex-wrap">
-        <div class="basis-1/4 px-3">
+        <div class="basis-52 md:basis-1/4 px-3">
           <img class="mb-8 w-2/3" src="../assets/logo-white.png" alt="">
           <p class="pb-3">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Itaque, ducimus, atque. Praesentium suscipit provident explicabo dignissimos nostrum numquam deserunt earum accusantium et fugit.</p>
         </div>
 
-        <div class="basis-1/4 px-3">
+        <div class="basis-52 md:basis-1/4 px-3">
           <div>
             <h4 class="text-2xl font-bold mb-8">Useful Links</h4>
             <ul>
@@ -20,7 +20,7 @@
           </div>
         </div>
 
-        <div class="basis-1/4 px-3">
+        <div class="basis-52 md:basis-1/4 px-3">
           <div>
             <h4 class="text-2xl font-bold mb-8">Latest News</h4>
             <ul>
@@ -31,7 +31,7 @@
           </div>
         </div>
 
-        <div class="basis-1/4 px-3">
+        <div class="basis-52 md:basis-1/4 px-3">
           <div>
             <h4 class="text-2xl font-bold mb-8">Follow Us</h4>
             <p class="mb-6">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Itaque, ducimus, atque.</p>
@@ -47,7 +47,7 @@
 
     <div class="border-t py-6 border-t-gray-500">
       <div class="main-container">
-        <div class="flex justify-between">
+        <div class="flex flex-wrap justify-center sm:justify-between gap-2 text-center">
           <ul>
             <li class="mr-4 transition-color duration-300 hover:text-purple inline-block"><RouterLink to="">Privacy & Cookies</RouterLink></li>
             <li class="mr-4 transition-color duration-300 hover:text-purple inline-block"><RouterLink to="">Terms & Condtions</RouterLink></li>
@@ -55,7 +55,7 @@
             <li class="mr-4 transition-color duration-300 hover:text-purple inline-block"><RouterLink to="">Community</RouterLink></li>
           </ul>
 
-          <div>
+          <div class="text-center">
             All Rights Reserved by <span class="capitalize">{{ appName() }}</span>.
           </div>
         </div>

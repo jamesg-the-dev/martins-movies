@@ -1,8 +1,8 @@
 <template>
   <section ref="movieGrid" class="section movie-grid">
     <div class="main-container">
-      <div class="flex justify-between mb-12">
-        <div class="flex gap-3">
+      <div class="flex flex-wrap justify-between items-center mb-12">
+        <div class="flex gap-3 basis-1/2">
           <button @click="displayType = 'list'" :class="{ 'bg-purple text-white': displayType === 'list' }"
             class="transition-all duration-300 w-10 h-10 hover:bg-purple hover:text-white rounded-md"><font-awesome-icon
               :icon="['fas', 'list']" /></button>

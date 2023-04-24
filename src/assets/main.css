@@ -13,10 +13,16 @@ body {
 .main-container {
   max-width: 1140px;
   margin-inline: auto;
-  padding-right: 1rem;
-  padding-left: 1rem;
+  padding-right: 1.4rem;
+  padding-left: 1.4rem;
 }
 
 .section {
-  padding: 100px 0;
+  padding: 2rem 0;
+}
+
+@media (min-width: 640px) {
+  .section {
+    padding: 100px 2rem;
+  }
 }
