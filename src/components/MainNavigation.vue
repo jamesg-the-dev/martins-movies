@@ -1,6 +1,8 @@
 <template>
   <nav class="flex justify-between py-3 px-6 items-center relative">
-    <img class="w-44" src="../assets/logo.png" alt="">
+    <RouterLink to="/">
+      <img class="w-44" src="../assets/logo.png" alt="">
+    </RouterLink>
     <div class="flex gap-6">
       <RouterLink class="text-gray-500" to="/">Home</RouterLink>
       <RouterLink class="text-gray-500" to="">Pages</RouterLink>
